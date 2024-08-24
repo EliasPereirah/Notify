@@ -1,0 +1,10 @@
+services:
+  evolution_api:
+    image: atendai/evolution-api:latest
+    container_name: evolution_api
+    environment:
+      - AUTHENTICATION_API_KEY=EvolutionAPIKey
+    ports:
+      - "8080:8080"
+    network_mode: "host"
+    restart: always
