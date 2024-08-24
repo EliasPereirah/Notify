@@ -8,6 +8,10 @@ Na pasta principal rode o comando:
 ```shel
 docker compose up -d
 ```
+Rode também:
+```shel
+composer update 
+```
 Acesse a página html/zap_login.php para fazer login no WhatsApp.
 
 Agora já pode usar como desejar:
