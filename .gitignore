@@ -1,4 +1,5 @@
 vendor
 .env
+.idea
 old.php
 teste.php

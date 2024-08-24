@@ -1,7 +1,6 @@
 # Como usar?
 
-Renomeio o arquivo .env.example para .env
-E faça as configurações no mesmo.
+Renomeio o arquivo .env.example para .env e faça as configurações no mesmo.
 
 No arquivo docker-composer.yaml escolha uma senha/chave api para EvolutionAPI, no lugar de "EvolutionAPIKey" ou deixe assim mesmo se não se importar.
 
@@ -23,5 +22,8 @@ $Notify->sendZap('Sua mensagem para WhatsApp', '5511');
 $Notify->senMail('Assunto de Email', 'Conteúdo do e-mail');
 ```
 
-Se desejar o script /crons/correios
-Importe a base de dados notify.sql
+# Correios 
+Como exemplo também tem o script /crons/correios.php
+Se desejar utilizá-lo importe a base sql notify.sql
+
+Vai precisar colocar o código de rastreio na tabela "track"
