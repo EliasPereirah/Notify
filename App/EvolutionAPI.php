@@ -18,6 +18,8 @@ class EvolutionAPI
         $this->curl = curl_init();
     }
 
+
+
     /**
      * @throws Exception
      */

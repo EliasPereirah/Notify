@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 24, 2024 at 02:58 PM
--- Server version: 10.3.39-MariaDB-0ubuntu0.20.04.2
--- PHP Version: 8.3.10
+-- Tempo de geração: 27/08/2024 às 08:48
+-- Versão do servidor: 10.3.39-MariaDB-0ubuntu0.20.04.2
+-- Versão do PHP: 8.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,18 +18,20 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `notify`
+-- Banco de dados: `notify`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `correios`
+-- Estrutura para tabela `correios`
 --
 
 CREATE TABLE `correios` (
   `code` varchar(25) NOT NULL,
   `content` text NOT NULL,
+  `origem` varchar(250) NOT NULL,
+  `destino` varchar(250) NOT NULL,
   `last_status` datetime DEFAULT NULL,
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -37,7 +39,7 @@ CREATE TABLE `correios` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `track`
+-- Estrutura para tabela `track`
 --
 
 CREATE TABLE `track` (
@@ -48,33 +50,33 @@ CREATE TABLE `track` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indexes for dumped tables
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `correios`
+-- Índices de tabela `correios`
 --
 ALTER TABLE `correios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `track`
+-- Índices de tabela `track`
 --
 ALTER TABLE `track`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT for table `correios`
+-- AUTO_INCREMENT de tabela `correios`
 --
 ALTER TABLE `correios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `track`
+-- AUTO_INCREMENT de tabela `track`
 --
 ALTER TABLE `track`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

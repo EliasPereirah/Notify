@@ -3,7 +3,7 @@ services:
     image: atendai/evolution-api:latest
     container_name: evolution_api
     environment:
-      - AUTHENTICATION_API_KEY=EvolutionAPIKey
+      - AUTHENTICATION_API_KEY=SuaSenhaAqui
     ports:
       - "8080:8080"
     network_mode: "host"

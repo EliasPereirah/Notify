@@ -24,15 +24,19 @@ class Correios
         $url = "https://www.linkcorreios.com.br/?id=$code";
         $this->HttpRequest->addURL($url, $code);
         $data = $this->HttpRequest->request();
-        $content = $data[0]['content'];
+        $content = $data[0]['content'] ?? '';
         preg_match("/<ul\s+class=\"linha_status\s+m-0\"(.*?)<\/ul>/is", $content, $matches);
         $result = $matches[1] ?? '';
         preg_match("/Status:(.*?)<\/li>/", $result, $matches);
         $status = $matches[1] ?? '';
         $status = strip_tags($status);
         preg_match("/Data(\s+)?:\s+(?<data>\d{2}\/\d{2}\/\d{4})\s+\|\s+Hora:\s+(?<hora>\d{2}:\d{2})/", $content, $matches);
-        $data = $matches['data'];
-        $hora = $matches['hora'];
+        $data = $matches['data'] ?? '';
+        $hora = $matches['hora'] ?? '';
+        preg_match("/Origem(\s+)?:\s+(?<origem>(.*?))</i", $content, $matches);
+        $origem = $matches['origem'] ?? '';
+        preg_match("/Destino(\s+)?:\s+(?<destino>(.*?))</i", $content, $matches);
+        $destino = $matches['destino'] ?? '';
         $data_hora = "$data $hora";
         $date = date_create_from_format('d/m/Y H:i', $data_hora);
         $formato_americano = $date->format('Y-m-d H:i:s');
@@ -40,6 +44,8 @@ class Correios
         $obj->status = $status;
         $obj->date = $formato_americano;
         $obj->data_br = $data_hora;
+        $obj->origem = $origem;
+        $obj->destino = $destino;
         return $obj;
     }
 
@@ -61,11 +67,11 @@ class Correios
      * @param string $new_status Mensagem do novo status
      * @param string $new_date Data da última mudança no status pelo correios
     **/
-    public function updateStatus(string $code, string $new_status, string $new_date):bool
+    public function updateStatus(string $code, string $new_status, string $new_date, $origem, $destino):bool
     {
         $code = trim($code);
-        $sql = "UPDATE correios SET last_status = :new_date, content = :new_cnt WHERE code = :code";
-        $binds = ['new_date' => $new_date, 'new_cnt' => $new_status, 'code' => $code];
+        $sql = "UPDATE correios SET last_status = :new_date, content = :new_cnt,origem = :origem, destino = :destino WHERE code = :code";
+        $binds = ['new_date' => $new_date, 'new_cnt' => $new_status,'origem' => $origem, 'destino' => $destino, 'code' => $code];
         return $this->Database->update($sql, $binds);
 
     }
@@ -81,11 +87,11 @@ class Correios
         return $this->Database->select($sql, $binds)->rowCount() > 0;
     }
 
-    public function addStatus(string $code, string $status, string $date):bool
+    public function addStatus(string $code, string $status, string $date, $origem, $destino):bool
     {
         $code = trim($code);
-        $sql = "INSERT INTO correios (code, last_status, content) VALUES (:code, :last_status, :cnt)";
-        $binds = ['code' => $code, 'last_status' => $date, 'cnt' => $status];
+        $sql = "INSERT INTO correios (code, last_status, content,origem, destino) VALUES (:code, :last_status, :cnt,:origem, :destino)";
+        $binds = ['code' => $code, 'last_status' => $date, 'cnt' => $status,'origem' => $origem, 'destino' => $destino];
         return $this->Database->insert($sql, $binds);
     }
 
@@ -94,7 +100,6 @@ class Correios
     **/
     public function needTrack(int $limit = 5):array
     {
-        $limit = (int) $limit;
         $sql = "SELECT code FROM track WHERE finished = :finished LIMIT $limit";
         $binds = ['finished' => 0];
         $data = $this->Database->select($sql, $binds)->fetchAll();

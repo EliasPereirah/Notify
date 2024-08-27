@@ -11,11 +11,16 @@ class Notify
     private string $notify_number;
     private MailService $MailService;
 
+    /**
+     * @throws Exception
+     */
     public function __construct($instance_name = null, $api_key = null)
     {
         $this->instance_name = $instance_name ?? $_ENV['EVO_INSTANCE_NAME'];
         $this->notify_number = $_ENV['ZAP_NOTIFY_NUMBER'];
+        $api_key = $_ENV['EVOLUTION_API_KEY'];
         $this->EvolutionAPI = new EvolutionAPI($this->instance_name, $api_key);
+
         $this->MailService = new \App\MailService();
 
     }
