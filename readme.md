@@ -25,9 +25,3 @@ $Notify->sendZap('Sua mensagem para WhatsApp', '5511');
 // Envia menagem de e-mail
 $Notify->senMail('Assunto de Email', 'Conteúdo do e-mail');
 ```
-
-# Correios 
-Como exemplo também tem o script /crons/correios.php
-Se desejar utilizá-lo importe a base sql notify.sql
-
-Vai precisar colocar o código de rastreio na tabela "track"
